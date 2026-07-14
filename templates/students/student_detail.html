@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}{{ student.full_name }} - Student Detail{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><i class="bi bi-person"></i> {{ student.full_name }}</h2>
+    <div>
+        {% if student.is_profile_verified %}
+        <span class="badge bg-success"><i class="bi bi-patch-check"></i> Verified</span>
+        {% else %}
+        <span class="badge bg-warning text-dark">Unverified</span>
+        {% endif %}
+        <span class="badge bg-primary">{{ student.get_placement_status_display }}</span>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-header"><h5 class="mb-0">Academic Info</h5></div>
+            <div class="card-body">
+                <p><strong>Enrollment:</strong> {{ student.enrollment_no }}</p>
+                <p><strong>Department:</strong> {{ student.department.name|default:"—" }}</p>
+                <p><strong>Batch:</strong> {{ student.batch_year }}</p>
+                <p><strong>CGPA:</strong> {{ student.cgpa }}</p>
+                <p><strong>Backlogs:</strong> {{ student.backlogs }}</p>
+                <p><strong>Email:</strong> {{ student.user.email }}</p>
+                {% if student.linkedin_url %}<p><a href="{{ student.linkedin_url }}" target="_blank"><i class="bi bi-linkedin"></i> LinkedIn</a></p>{% endif %}
+                {% if student.github_url %}<p><a href="{{ student.github_url }}" target="_blank"><i class="bi bi-github"></i> GitHub</a></p>{% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        {% if student.bio %}
+        <div class="card shadow-sm mb-4">
+            <div class="card-header"><h5 class="mb-0">Bio</h5></div>
+            <div class="card-body"><p class="mb-0">{{ student.bio }}</p></div>
+        </div>
+        {% endif %}
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-header"><h5 class="mb-0">Skills</h5></div>
+            <div class="card-body">
+                {% for skill in student.skills.all %}
+                <span class="skill-tag matched">{{ skill.name }}</span>
+                {% empty %}
+                <p class="text-muted mb-0">No skills listed.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-header"><h5 class="mb-0">Certifications</h5></div>
+            <div class="card-body">
+                {% for cert in student.certifications.all %}
+                <div class="border-bottom pb-2 mb-2">
+                    <h6 class="mb-0">{{ cert.name }}</h6>
+                    <small class="text-muted">{{ cert.issuing_organization }} &bull; {{ cert.issue_date|date:"M Y" }}</small>
+                </div>
+                {% empty %}
+                <p class="text-muted mb-0">No certifications.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-header"><h5 class="mb-0">Projects</h5></div>
+            <div class="card-body">
+                {% for project in student.projects.all %}
+                <div class="border-bottom pb-2 mb-2">
+                    <h6 class="mb-0">{{ project.title }}</h6>
+                    <p class="small text-muted mb-0">{{ project.description|truncatewords:30 }}</p>
+                    <small class="text-muted">{{ project.technologies }}</small>
+                </div>
+                {% empty %}
+                <p class="text-muted mb-0">No projects.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a href="{% url 'students:student_list' %}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back to List</a>
+    <a href="{% url 'students:verify_student' student.pk %}" class="btn btn-{% if student.is_profile_verified %}warning{% else %}success{% endif %}">
+        {% if student.is_profile_verified %}Unverify Profile{% else %}Verify Profile{% endif %}
+    </a>
+</div>
+{% endblock %}

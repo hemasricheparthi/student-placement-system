@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Add Certification{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="bi bi-award"></i> Add Certification</h4>
+            </div>
+            <div class="card-body p-4">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Certification Name</label>
+                        {{ form.name }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Issuing Organization</label>
+                        {{ form.issuing_organization }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Issue Date</label>
+                        {{ form.issue_date }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Expiry Date</label>
+                        {{ form.expiry_date }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Credential URL</label>
+                        {{ form.credential_url }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Certification</button>
+                    <a href="{% url 'students:profile' %}" class="btn btn-link">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Student Registration{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="bi bi-person-plus"></i> Student Registration</h4>
+            </div>
+            <div class="card-body p-4">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Username</label>
+                            <input type="text" name="username" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">First Name</label>
+                            <input type="text" name="first_name" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" name="last_name" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Phone</label>
+                            <input type="text" name="phone" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Enrollment No</label>
+                            <input type="text" name="enrollment_no" class="form-control" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Department</label>
+                            <select name="department" class="form-select" required>
+                                {% for dept in form.department.field.queryset %}
+                                <option value="{{ dept.pk }}">{{ dept.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Batch Year</label>
+                            <input type="number" name="batch_year" class="form-control" value="2026" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">CGPA</label>
+                            <input type="number" name="cgpa" class="form-control" step="0.01" value="0" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" name="password1" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Confirm Password</label>
+                            <input type="password" name="password2" class="form-control" required>
+                        </div>
+                    </div>
+                    {% if form.errors %}
+                    <div class="alert alert-danger">
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}<p class="mb-0">{{ error }}</p>{% endfor %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    <button type="submit" class="btn btn-primary">Register</button>
+                    <a href="{% url 'accounts:login' %}" class="btn btn-link">Already have an account?</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Companies{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-building"></i> Partner Companies</h2>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3 align-items-end">
+            <div class="col-md-5">{{ form.search.label_tag }}{{ form.search }}</div>
+            <div class="col-md-5">{{ form.industry.label_tag }}{{ form.industry }}</div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100"><i class="bi bi-search"></i> Search</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row g-4">
+    {% for company in companies %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card stat-card h-100 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    {% if company.logo %}
+                    <img src="{{ company.logo.url }}" alt="{{ company.company_name }}" class="rounded me-3" width="50" height="50">
+                    {% else %}
+                    <div class="bg-primary text-white rounded d-flex align-items-center justify-content-center me-3" style="width:50px;height:50px;">
+                        <i class="bi bi-building fs-4"></i>
+                    </div>
+                    {% endif %}
+                    <div>
+                        <h5 class="mb-0"><a href="{% url 'companies:company_detail' company.pk %}">{{ company.company_name }}</a></h5>
+                        <small class="text-muted">{{ company.industry }}</small>
+                    </div>
+                </div>
+                <p class="text-muted small">{{ company.description|truncatewords:20 }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted"><i class="bi bi-geo-alt"></i> {{ company.headquarters|default:"—" }}</small>
+                    <span class="badge bg-success"><i class="bi bi-patch-check"></i> Verified</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center text-muted py-5">
+        <i class="bi bi-building fs-1"></i>
+        <p class="mt-2">No companies found.</p>
+    </div>
+    {% endfor %}
+</div>
+
+{% include 'includes/pagination.html' with page_obj=companies %}
+{% endblock %}

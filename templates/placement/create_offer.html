@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Create Offer Letter{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0"><i class="bi bi-gift"></i> Create Offer Letter</h4>
+            </div>
+            <div class="card-body p-4">
+                <div class="alert alert-light border mb-4">
+                    <strong>Candidate:</strong> {{ application.student.full_name }} ({{ application.student.enrollment_no }})<br>
+                    <strong>Job:</strong> {{ application.job.title }}<br>
+                    <strong>Resume Match:</strong> {{ application.match_percentage }}%
+                </div>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Package Offered</label>
+                        {{ form.package_offered }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Joining Date</label>
+                        {{ form.joining_date }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Response Deadline</label>
+                        {{ form.response_deadline }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Offer Details</label>
+                        {{ form.offer_details }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Offer Letter File (PDF)</label>
+                        {{ form.file }}
+                    </div>
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-success"><i class="bi bi-send"></i> Issue Offer</button>
+                        <a href="{% url 'jobs:view_applicants' application.job.pk %}" class="btn btn-link">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

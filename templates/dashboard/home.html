@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block title %}Home - Placement Portal{% endblock %}
+
+{% block content %}
+<section class="hero-section text-center py-5 mb-4 rounded-3">
+    <div class="container">
+        <h1 class="display-4 fw-bold text-white">Student Placement Management System</h1>
+        <p class="lead text-white-50">Connect students with top companies. Track placements, manage drives, and launch your career.</p>
+        {% if not user.is_authenticated %}
+        <div class="mt-4">
+            <a href="{% url 'accounts:student_register' %}" class="btn btn-light btn-lg me-2">Register as Student</a>
+            <a href="{% url 'accounts:company_register' %}" class="btn btn-outline-light btn-lg">Register as Company</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<div class="row g-4 mb-5">
+    <div class="col-md-3">
+        <div class="card stat-card text-center h-100">
+            <div class="card-body">
+                <i class="bi bi-people-fill text-primary fs-1"></i>
+                <h3 class="mt-2">{{ stats.total_students }}</h3>
+                <p class="text-muted mb-0">Students</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card text-center h-100">
+            <div class="card-body">
+                <i class="bi bi-building text-success fs-1"></i>
+                <h3 class="mt-2">{{ stats.total_companies }}</h3>
+                <p class="text-muted mb-0">Companies</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card text-center h-100">
+            <div class="card-body">
+                <i class="bi bi-briefcase-fill text-warning fs-1"></i>
+                <h3 class="mt-2">{{ stats.total_jobs }}</h3>
+                <p class="text-muted mb-0">Open Jobs</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card text-center h-100">
+            <div class="card-body">
+                <i class="bi bi-graph-up-arrow text-info fs-1"></i>
+                <h3 class="mt-2">{{ stats.placement_percentage }}%</h3>
+                <p class="text-muted mb-0">Placement Rate</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="bi bi-briefcase"></i> Latest Job Openings</h5>
+                <a href="{% url 'jobs:job_list' %}" class="btn btn-sm btn-outline-primary">View All</a>
+            </div>
+            <div class="card-body">
+                {% for job in recent_jobs %}
+                <div class="d-flex justify-content-between align-items-center border-bottom py-3">
+                    <div>
+                        <h6 class="mb-1"><a href="{% url 'jobs:job_detail' job.pk %}">{{ job.title }}</a></h6>
+                        <small class="text-muted">{{ job.company.company_name }} &bull; {{ job.salary_package }}</small>
+                    </div>
+                    <span class="badge bg-primary">{{ job.get_job_type_display }}</span>
+                </div>
+                {% empty %}
+                <p class="text-muted text-center py-3">No job openings yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="mb-0"><i class="bi bi-megaphone"></i> Announcements</h5>
+            </div>
+            <div class="card-body">
+                {% for ann in announcements %}
+                <div class="mb-3">
+                    <h6>{{ ann.title }}</h6>
+                    <p class="small text-muted">{{ ann.content|truncatewords:20 }}</p>
+                    <small class="text-muted">{{ ann.created_at|date:"M d, Y" }}</small>
+                </div>
+                {% empty %}
+                <p class="text-muted">No announcements.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

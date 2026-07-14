@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Notifications{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-bell"></i> Notifications</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        {% for notif in notifications %}
+        <div class="d-flex align-items-start border-bottom p-3 {% if not notif.is_read %}bg-light{% endif %}">
+            <div class="me-3">
+                {% if notif.notification_type == 'SUCCESS' %}
+                <i class="bi bi-check-circle-fill text-success fs-4"></i>
+                {% elif notif.notification_type == 'WARNING' %}
+                <i class="bi bi-exclamation-triangle-fill text-warning fs-4"></i>
+                {% elif notif.notification_type == 'APPLICATION' %}
+                <i class="bi bi-file-earmark-text text-primary fs-4"></i>
+                {% elif notif.notification_type == 'INTERVIEW' %}
+                <i class="bi bi-calendar-event text-info fs-4"></i>
+                {% elif notif.notification_type == 'OFFER' %}
+                <i class="bi bi-gift text-success fs-4"></i>
+                {% else %}
+                <i class="bi bi-info-circle text-secondary fs-4"></i>
+                {% endif %}
+            </div>
+            <div class="flex-grow-1">
+                <h6 class="mb-1">{{ notif.title }}</h6>
+                <p class="mb-1 text-muted">{{ notif.message }}</p>
+                <small class="text-muted">{{ notif.created_at|date:"M d, Y g:i A" }}</small>
+            </div>
+            {% if notif.link %}
+            <a href="{{ notif.link }}" class="btn btn-sm btn-outline-primary">View</a>
+            {% endif %}
+        </div>
+        {% empty %}
+        <div class="text-center py-5 text-muted">
+            <i class="bi bi-bell-slash fs-1"></i>
+            <p class="mt-2 mb-0">No notifications yet.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

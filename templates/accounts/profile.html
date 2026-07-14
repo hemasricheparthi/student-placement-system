@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="bi bi-person-circle"></i> My Profile</h4>
+            </div>
+            <div class="card-body p-4">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">First Name</label>
+                            {{ form.first_name }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Last Name</label>
+                            {{ form.last_name }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Email</label>
+                            {{ form.email }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Phone</label>
+                            {{ form.phone }}
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Profile Picture</label>
+                            {{ form.profile_picture }}
+                            {% if user.profile_picture %}
+                            <div class="mt-2">
+                                <img src="{{ user.profile_picture.url }}" alt="Profile" class="rounded" width="80">
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if form.errors %}
+                    <div class="alert alert-danger mt-3">
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}<p class="mb-0">{{ error }}</p>{% endfor %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Save Changes</button>
+                        {% if user.is_student %}
+                        <a href="{% url 'students:profile' %}" class="btn btn-outline-secondary">Student Profile</a>
+                        {% elif user.is_company %}
+                        <a href="{% url 'companies:profile' %}" class="btn btn-outline-secondary">Company Profile</a>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

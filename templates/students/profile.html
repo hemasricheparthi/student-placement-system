@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% block title %}Student Profile{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><i class="bi bi-person-badge"></i> Student Profile</h2>
+    {% if profile.is_profile_verified %}
+    <span class="badge bg-success"><i class="bi bi-patch-check"></i> Verified</span>
+    {% else %}
+    <span class="badge bg-warning text-dark"><i class="bi bi-hourglass"></i> Pending Verification</span>
+    {% endif %}
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header"><h5 class="mb-0">Academic & Personal Info</h5></div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Enrollment No</label>
+                            {{ form.enrollment_no }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Department</label>
+                            {{ form.department }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Batch Year</label>
+                            {{ form.batch_year }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">CGPA</label>
+                            {{ form.cgpa }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Backlogs</label>
+                            {{ form.backlogs }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Date of Birth</label>
+                            {{ form.date_of_birth }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">LinkedIn</label>
+                            {{ form.linkedin_url }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">GitHub</label>
+                            {{ form.github_url }}
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Address</label>
+                            {{ form.address }}
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Bio</label>
+                            {{ form.bio }}
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Skills</label>
+                            <div class="border rounded p-3">{{ form.skills }}</div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3"><i class="bi bi-save"></i> Save Profile</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Resumes</h5>
+                <a href="{% url 'students:upload_resume' %}" class="btn btn-sm btn-primary"><i class="bi bi-upload"></i></a>
+            </div>
+            <div class="card-body">
+                {% for resume in resumes %}
+                <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                    <div>
+                        <small>{{ resume.uploaded_at|date:"M d, Y" }}</small>
+                        {% if resume.is_active %}<span class="badge bg-success ms-1">Active</span>{% endif %}
+                    </div>
+                    <a href="{{ resume.file.url }}" target="_blank" class="btn btn-sm btn-outline-primary"><i class="bi bi-download"></i></a>
+                </div>
+                {% empty %}
+                <p class="text-muted small mb-0">No resume uploaded. <a href="{% url 'students:upload_resume' %}">Upload now</a></p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="card shadow-sm mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Certifications</h5>
+                <a href="{% url 'students:add_certification' %}" class="btn btn-sm btn-primary"><i class="bi bi-plus"></i></a>
+            </div>
+            <div class="card-body">
+                {% for cert in certifications %}
+                <div class="mb-2 pb-2 border-bottom">
+                    <h6 class="mb-0 small">{{ cert.name }}</h6>
+                    <small class="text-muted">{{ cert.issuing_organization }} &bull; {{ cert.issue_date|date:"M Y" }}</small>
+                </div>
+                {% empty %}
+                <p class="text-muted small mb-0">No certifications added.</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="card shadow-sm">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Projects</h5>
+                <a href="{% url 'students:add_project' %}" class="btn btn-sm btn-primary"><i class="bi bi-plus"></i></a>
+            </div>
+            <div class="card-body">
+                {% for project in projects %}
+                <div class="mb-2 pb-2 border-bottom">
+                    <h6 class="mb-0 small">{{ project.title }}</h6>
+                    <small class="text-muted">{{ project.technologies }}</small>
+                </div>
+                {% empty %}
+                <p class="text-muted small mb-0">No projects added.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

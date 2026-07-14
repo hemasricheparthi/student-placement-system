@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Manage Announcements{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-megaphone"></i> Manage Announcements</h2>
+
+<div class="row g-4">
+    <div class="col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-plus-circle"></i> New Announcement</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        {{ form.title }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Content</label>
+                        {{ form.content }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Target Roles</label>
+                        {{ form.target_roles }}
+                        <small class="text-muted">Comma-separated: STUDENT,COMPANY,PLACEMENT_OFFICER</small>
+                    </div>
+                    <div class="form-check mb-3">
+                        {{ form.is_active }}
+                        <label class="form-check-label">Active</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Publish</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-header"><h5 class="mb-0">All Announcements</h5></div>
+            <div class="card-body">
+                {% for ann in announcements %}
+                <div class="border-bottom pb-3 mb-3">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <h6 class="mb-1">{{ ann.title }}</h6>
+                        {% if ann.is_active %}
+                        <span class="badge bg-success">Active</span>
+                        {% else %}
+                        <span class="badge bg-secondary">Inactive</span>
+                        {% endif %}
+                    </div>
+                    <p class="text-muted small mb-1">{{ ann.content|truncatewords:30 }}</p>
+                    <small class="text-muted">{{ ann.created_at|date:"M d, Y" }} &bull; {{ ann.created_by.username|default:"System" }}</small>
+                </div>
+                {% empty %}
+                <p class="text-muted text-center py-4">No announcements yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

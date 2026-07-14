@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Contact - Placement Portal{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <div class="col-lg-5">
+        <div class="card shadow-sm h-100">
+            <div class="card-body p-4">
+                <h2 class="mb-4"><i class="bi bi-envelope"></i> Contact Us</h2>
+                <p class="text-muted">Have questions about placements, registrations, or company partnerships? Reach out to the Training & Placement Cell.</p>
+                <ul class="list-unstyled">
+                    <li class="mb-3">
+                        <i class="bi bi-geo-alt text-primary me-2"></i>
+                        <strong>Address:</strong><br>
+                        <span class="text-muted ms-4">Training & Placement Cell, Main Campus</span>
+                    </li>
+                    <li class="mb-3">
+                        <i class="bi bi-envelope text-primary me-2"></i>
+                        <strong>Email:</strong><br>
+                        <a href="mailto:placement@college.edu" class="ms-4">placement@college.edu</a>
+                    </li>
+                    <li class="mb-3">
+                        <i class="bi bi-telephone text-primary me-2"></i>
+                        <strong>Phone:</strong><br>
+                        <span class="text-muted ms-4">+91 9876543210</span>
+                    </li>
+                    <li class="mb-3">
+                        <i class="bi bi-clock text-primary me-2"></i>
+                        <strong>Office Hours:</strong><br>
+                        <span class="text-muted ms-4">Mon – Fri, 9:00 AM – 5:00 PM</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-7">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="mb-0"><i class="bi bi-chat-dots"></i> Send a Message</h5>
+            </div>
+            <div class="card-body p-4">
+                <form method="post" action="#">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control" name="name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Subject</label>
+                            <input type="text" class="form-control" name="subject" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Message</label>
+                            <textarea class="form-control" name="message" rows="5" required></textarea>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i> Send Message</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

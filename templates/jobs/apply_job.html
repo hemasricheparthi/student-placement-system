@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Apply - {{ job.title }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="bi bi-send"></i> Apply for {{ job.title }}</h4>
+            </div>
+            <div class="card-body p-4">
+                <div class="alert alert-light border mb-4">
+                    <strong>{{ job.company.company_name }}</strong> &bull; {{ job.location }} &bull; {{ job.salary_package }}<br>
+                    <small class="text-muted">Min CGPA: {{ job.min_cgpa }} &bull; Apply by: {{ job.last_date_to_apply|date:"M d, Y" }}</small>
+                </div>
+                <div class="alert alert-info">
+                    <i class="bi bi-stars"></i> Your resume will be analyzed and matched against required skills upon submission.
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Cover Letter (Optional)</label>
+                        {{ form.cover_letter }}
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg"><i class="bi bi-send"></i> Submit Application</button>
+                    <a href="{% url 'jobs:job_detail' job.pk %}" class="btn btn-link">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

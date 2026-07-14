@@ -1,0 +1,166 @@
+/* Placement Portal - Custom Styles */
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%);
+    --hero-overlay: rgba(13, 110, 253, 0.92);
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f9fa;
+}
+
+main.container {
+    flex: 1;
+}
+
+/* Hero Section */
+.hero-section {
+    background: var(--primary-gradient);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.5;
+}
+
+.hero-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Stat Cards */
+.stat-card {
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.12);
+}
+
+/* Match Score */
+.match-score {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.match-score.high { color: #198754; }
+.match-score.medium { color: #ffc107; }
+.match-score.low { color: #dc3545; }
+
+.match-bar {
+    height: 8px;
+    border-radius: 4px;
+    background-color: #e9ecef;
+    overflow: hidden;
+}
+
+.match-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.6s ease;
+}
+
+.match-bar-fill.high { background-color: #198754; }
+.match-bar-fill.medium { background-color: #ffc107; }
+.match-bar-fill.low { background-color: #dc3545; }
+
+/* Skill Tags */
+.skill-tag {
+    display: inline-block;
+    padding: 0.25rem 0.6rem;
+    margin: 0.15rem;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.skill-tag.matched { background-color: #d1e7dd; color: #0f5132; }
+.skill-tag.missing { background-color: #f8d7da; color: #842029; }
+.skill-tag.suggested { background-color: #cff4fc; color: #055160; }
+
+/* Cards & Tables */
+.card {
+    border: none;
+    border-radius: 0.75rem;
+}
+
+.card-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 0.75rem 0.75rem 0 0 !important;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(13, 110, 253, 0.04);
+}
+
+/* Status Badges */
+.status-badge {
+    font-size: 0.75rem;
+    padding: 0.35em 0.65em;
+}
+
+/* Dashboard Quick Links */
+.quick-link-card {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+}
+
+.quick-link-card:hover {
+    color: inherit;
+}
+
+.quick-link-card .card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.quick-link-card:hover .card {
+    transform: translateY(-3px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+/* Footer links */
+footer a {
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #fff !important;
+}
+
+/* Form enhancements */
+.form-control:focus,
+.form-select:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 1.75rem;
+    }
+
+    .match-score {
+        font-size: 1.5rem;
+    }
+
+    .stat-card h2,
+    .stat-card h3 {
+        font-size: 1.5rem;
+    }
+}

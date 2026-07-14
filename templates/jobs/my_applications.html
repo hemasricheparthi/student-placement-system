@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %}My Applications{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-file-earmark-check"></i> My Applications</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        {% for app in applications %}
+        <div class="border-bottom p-4">
+            <div class="row align-items-start">
+                <div class="col-lg-5">
+                    <h5 class="mb-1"><a href="{% url 'jobs:job_detail' app.job.pk %}">{{ app.job.title }}</a></h5>
+                    <p class="text-muted mb-1">{{ app.job.company.company_name }}</p>
+                    <span class="badge bg-secondary">{{ app.get_status_display }}</span>
+                    <small class="text-muted ms-2">Applied {{ app.applied_at|date:"M d, Y" }}</small>
+                </div>
+                <div class="col-lg-4">
+                    {% if app.match_percentage %}
+                    <div class="mb-2">
+                        <strong class="small">Resume Match:</strong>
+                        <div class="d-flex align-items-center mt-1">
+                            {% if app.match_percentage >= 70 %}
+                            <span class="match-score high me-2" style="font-size:1.25rem;">{{ app.match_percentage }}%</span>
+                            {% elif app.match_percentage >= 40 %}
+                            <span class="match-score medium me-2" style="font-size:1.25rem;">{{ app.match_percentage }}%</span>
+                            {% else %}
+                            <span class="match-score low me-2" style="font-size:1.25rem;">{{ app.match_percentage }}%</span>
+                            {% endif %}
+                            <div class="match-bar flex-grow-1">
+                                <div class="match-bar-fill {% if app.match_percentage >= 70 %}high{% elif app.match_percentage >= 40 %}medium{% else %}low{% endif %}"
+                                     data-width="{{ app.match_percentage }}"></div>
+                            </div>
+                        </div>
+                    </div>
+                    {% if app.matched_skills %}
+                    <div class="mb-1">
+                        {% for skill in app.matched_skills|slice:":5" %}
+                        <span class="skill-tag matched">{{ skill }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% if app.missing_skills %}
+                    <div>
+                        <small class="text-muted">Missing:</small>
+                        {% for skill in app.missing_skills|slice:":3" %}
+                        <span class="skill-tag missing">{{ skill }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% endif %}
+                </div>
+                <div class="col-lg-3 text-lg-end mt-3 mt-lg-0">
+                    {% if app.status == 'OFFERED' %}
+                        {% if app.offer_letter %}
+                        <div class="alert alert-success py-2 mb-2">
+                            <strong>Offer:</strong> {{ app.offer_letter.package_offered }}
+                        </div>
+                        <a href="{% url 'placement:respond_offer' app.offer_letter.pk %}?action=accept" class="btn btn-success btn-sm me-1"
+                           data-confirm="Accept this offer?">
+                            <i class="bi bi-check-lg"></i> Accept
+                        </a>
+                        <a href="{% url 'placement:respond_offer' app.offer_letter.pk %}?action=reject" class="btn btn-outline-danger btn-sm"
+                           data-confirm="Reject this offer?">
+                            <i class="bi bi-x-lg"></i> Reject
+                        </a>
+                        {% if app.offer_letter.file %}
+                        <a href="{% url 'placement:download_offer' app.offer_letter.pk %}" class="btn btn-outline-primary btn-sm d-block mt-2">
+                            <i class="bi bi-download"></i> Download Offer Letter
+                        </a>
+                        {% endif %}
+                        {% endif %}
+                    {% elif app.status == 'OFFER_ACCEPTED' %}
+                    <span class="badge bg-success fs-6"><i class="bi bi-trophy"></i> Offer Accepted</span>
+                    {% elif app.status == 'INTERVIEW_SCHEDULED' %}
+                    <a href="{% url 'placement:interview_schedule' %}" class="btn btn-sm btn-outline-info">View Interview</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="text-center py-5 text-muted">
+            <i class="bi bi-inbox fs-1"></i>
+            <p class="mt-2">You haven't applied to any jobs yet.</p>
+            <a href="{% url 'jobs:eligible_jobs' %}" class="btn btn-primary">Browse Eligible Jobs</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% include 'includes/pagination.html' with page_obj=applications %}
+{% endblock %}

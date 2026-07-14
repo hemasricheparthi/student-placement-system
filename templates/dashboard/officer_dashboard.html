@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% block title %}Officer Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-speedometer2"></i> Placement Officer Dashboard</h2>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card stat-card bg-primary text-white">
+            <div class="card-body text-center">
+                <i class="bi bi-people fs-2"></i>
+                <h2 class="mt-2">{{ stats.total_students }}</h2>
+                <p class="mb-0">Total Students</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card bg-success text-white">
+            <div class="card-body text-center">
+                <i class="bi bi-building fs-2"></i>
+                <h2 class="mt-2">{{ stats.total_companies }}</h2>
+                <p class="mb-0">Verified Companies</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card bg-warning text-dark">
+            <div class="card-body text-center">
+                <i class="bi bi-hourglass-split fs-2"></i>
+                <h2 class="mt-2">{{ pending_verifications }}</h2>
+                <p class="mb-0">Pending Student Verifications</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card bg-info text-white">
+            <div class="card-body text-center">
+                <i class="bi bi-shield-exclamation fs-2"></i>
+                <h2 class="mt-2">{{ pending_companies }}</h2>
+                <p class="mb-0">Unverified Companies</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card stat-card text-center">
+            <div class="card-body">
+                <h4>{{ stats.placement_percentage }}%</h4>
+                <small class="text-muted">Placement Rate</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card text-center">
+            <div class="card-body">
+                <h4>{{ stats.total_applications }}</h4>
+                <small class="text-muted">Total Applications</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card text-center">
+            <div class="card-body">
+                <h4>{{ stats.total_jobs }}</h4>
+                <small class="text-muted">Open Jobs</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card text-center">
+            <div class="card-body">
+                <h4>{{ stats.upcoming_drives }}</h4>
+                <small class="text-muted">Upcoming Drives</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="bi bi-calendar-event"></i> Upcoming Drives</h5>
+                <a href="{% url 'placement:manage_drives' %}" class="btn btn-sm btn-outline-primary">Manage</a>
+            </div>
+            <div class="card-body">
+                {% for drive in upcoming_drives %}
+                <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                    <div>
+                        <h6 class="mb-0">{{ drive.title }}</h6>
+                        <small class="text-muted">{{ drive.drive_date|date:"M d, Y" }} &bull; {{ drive.venue|default:"TBA" }}</small>
+                    </div>
+                    <span class="badge bg-primary">{{ drive.get_status_display }}</span>
+                </div>
+                {% empty %}
+                <p class="text-muted text-center mb-0">No upcoming drives.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-file-earmark-text"></i> Recent Applications</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Student</th>
+                                <th>Job</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for app in recent_applications %}
+                            <tr>
+                                <td>{{ app.student.full_name }}</td>
+                                <td><small>{{ app.job.title }}</small></td>
+                                <td><span class="badge bg-secondary status-badge">{{ app.get_status_display }}</span></td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="3" class="text-center text-muted py-3">No applications yet.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm mt-4">
+    <div class="card-header"><h5 class="mb-0">Quick Actions</h5></div>
+    <div class="card-body">
+        <a href="{% url 'students:student_list' %}" class="btn btn-outline-primary me-2 mb-2"><i class="bi bi-people"></i> Students</a>
+        <a href="{% url 'companies:manage_companies' %}" class="btn btn-outline-primary me-2 mb-2"><i class="bi bi-building"></i> Companies</a>
+        <a href="{% url 'placement:manage_drives' %}" class="btn btn-outline-primary me-2 mb-2"><i class="bi bi-calendar-plus"></i> Drives</a>
+        <a href="{% url 'accounts:manage_announcements' %}" class="btn btn-outline-primary me-2 mb-2"><i class="bi bi-megaphone"></i> Announcements</a>
+        <a href="{% url 'reports:reports_home' %}" class="btn btn-outline-success mb-2"><i class="bi bi-bar-chart"></i> Reports</a>
+    </div>
+</div>
+{% endblock %}

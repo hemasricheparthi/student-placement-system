@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Create Placement Drive{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="bi bi-calendar-plus"></i> Create Placement Drive</h4>
+            </div>
+            <div class="card-body p-4">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label">Title</label>
+                            {{ form.title }}
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Description</label>
+                            {{ form.description }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Drive Date</label>
+                            {{ form.drive_date }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Registration Deadline</label>
+                            {{ form.registration_deadline }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Venue</label>
+                            {{ form.venue }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Min CGPA</label>
+                            {{ form.min_cgpa }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Status</label>
+                            {{ form.status }}
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Participating Companies</label>
+                            <div class="border rounded p-3">{{ form.companies }}</div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Eligible Departments</label>
+                            <div class="border rounded p-3">{{ form.departments }}</div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Create Drive</button>
+                        <a href="{% url 'placement:manage_drives' %}" class="btn btn-link">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

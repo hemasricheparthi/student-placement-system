@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% block title %}Analytics{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-pie-chart"></i> Analytics Dashboard</h2>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card stat-card bg-primary text-white text-center">
+            <div class="card-body">
+                <h2>{{ stats.total_students }}</h2>
+                <p class="mb-0">Students</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card bg-success text-white text-center">
+            <div class="card-body">
+                <h2>{{ stats.total_companies }}</h2>
+                <p class="mb-0">Companies</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card bg-warning text-dark text-center">
+            <div class="card-body">
+                <h2>{{ stats.total_jobs }}</h2>
+                <p class="mb-0">Open Jobs</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card bg-info text-white text-center">
+            <div class="card-body">
+                <h2>{{ stats.placement_percentage }}%</h2>
+                <p class="mb-0">Placement Rate</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card stat-card text-center">
+            <div class="card-body">
+                <h4>{{ stats.students_placed }}</h4>
+                <small class="text-muted">Placed</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card text-center">
+            <div class="card-body">
+                <h4>{{ stats.students_unplaced }}</h4>
+                <small class="text-muted">Unplaced</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card text-center">
+            <div class="card-body">
+                <h4>{{ stats.total_applications }}</h4>
+                <small class="text-muted">Applications</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card text-center">
+            <div class="card-body">
+                <h4>{{ stats.upcoming_drives }}</h4>
+                <small class="text-muted">Upcoming Drives</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-header"><h5 class="mb-0">Jobs by Company</h5></div>
+            <div class="card-body"><canvas id="companyChart" height="250"></canvas></div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-header"><h5 class="mb-0">Placement Overview</h5></div>
+            <div class="card-body"><canvas id="placementChart" height="250"></canvas></div>
+        </div>
+    </div>
+</div>
+
+<a href="{% url 'reports:reports_home' %}" class="btn btn-outline-secondary mt-4"><i class="bi bi-arrow-left"></i> Back to Reports</a>
+{% endblock %}
+
+{% block extra_js %}
+{{ jobs_by_company|json_script:"jobs-by-company-data" }}
+<script>
+const jobsByCompany = JSON.parse(document.getElementById('jobs-by-company-data').textContent);
+
+if (document.getElementById('companyChart')) {
+    new Chart(document.getElementById('companyChart'), {
+        type: 'bar',
+        data: {
+            labels: jobsByCompany.map(d => d.company__company_name || 'Unknown'),
+            datasets: [{
+                label: 'Jobs Posted',
+                data: jobsByCompany.map(d => d.count),
+                backgroundColor: '#0d6efd',
+            }]
+        },
+        options: { responsive: true, scales: { y: { beginAtZero: true } } }
+    });
+}
+
+if (document.getElementById('placementChart')) {
+    new Chart(document.getElementById('placementChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Placed', 'Unplaced'],
+            datasets: [{
+                data: [{{ stats.students_placed }}, {{ stats.students_unplaced }}],
+                backgroundColor: ['#198754', '#dee2e6'],
+            }]
+        },
+        options: { responsive: true }
+    });
+}
+</script>
+{% endblock %}

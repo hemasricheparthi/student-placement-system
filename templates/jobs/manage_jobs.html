@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Manage Jobs{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><i class="bi bi-briefcase"></i> Manage Jobs</h2>
+    <a href="{% url 'jobs:create_job' %}" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Post New Job</a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Title</th>
+                        <th>Type</th>
+                        <th>Package</th>
+                        <th>Applicants</th>
+                        <th>Status</th>
+                        <th>Deadline</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for job in jobs %}
+                    <tr>
+                        <td><a href="{% url 'jobs:job_detail' job.pk %}">{{ job.title }}</a></td>
+                        <td>{{ job.get_job_type_display }}</td>
+                        <td>{{ job.salary_package }}</td>
+                        <td>
+                            <a href="{% url 'jobs:view_applicants' job.pk %}">{{ job.applications.count }}</a>
+                        </td>
+                        <td><span class="badge bg-{% if job.status == 'OPEN' %}success{% else %}secondary{% endif %}">{{ job.get_status_display }}</span></td>
+                        <td>{{ job.last_date_to_apply|date:"M d, Y" }}</td>
+                        <td>
+                            <a href="{% url 'jobs:view_applicants' job.pk %}" class="btn btn-sm btn-outline-info" title="Applicants"><i class="bi bi-people"></i></a>
+                            <a href="{% url 'jobs:edit_job' job.pk %}" class="btn btn-sm btn-outline-primary" title="Edit"><i class="bi bi-pencil"></i></a>
+                            <a href="{% url 'jobs:delete_job' job.pk %}" class="btn btn-sm btn-outline-danger" title="Delete"><i class="bi bi-trash"></i></a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="7" class="text-center text-muted py-4">No jobs posted yet. <a href="{% url 'jobs:create_job' %}">Post your first job</a></td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Upload Resume{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="bi bi-file-earmark-pdf"></i> Upload Resume</h4>
+            </div>
+            <div class="card-body p-4">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> Upload a PDF resume (max 5MB). Skills will be automatically extracted for job matching.
+                </div>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Resume (PDF)</label>
+                        {{ form.file }}
+                    </div>
+                    {% if form.errors %}
+                    <div class="alert alert-danger">
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}<p class="mb-0">{{ error }}</p>{% endfor %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-upload"></i> Upload & Analyze</button>
+                    <a href="{% url 'students:profile' %}" class="btn btn-link">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
