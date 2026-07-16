@@ -1,8 +1,36 @@
 /* Placement Portal - Custom Styles */
 
 :root {
-    --primary-gradient: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%);
-    --hero-overlay: rgba(13, 110, 253, 0.92);
+    --bs-primary: #6f42c1;
+    --bs-primary-rgb: 111, 66, 193;
+    --bs-primary-text-emphasis: #4c2d85;
+    --bs-primary-bg-subtle: #ede3fa;
+    --bs-primary-border-subtle: #d4bff0;
+    --bs-link-color: #6f42c1;
+    --bs-link-color-rgb: 111, 66, 193;
+    --bs-link-hover-color: #59349b;
+    --bs-link-hover-color-rgb: 89, 52, 155;
+    --primary-gradient: linear-gradient(135deg, #6f42c1 0%, #d63384 100%);
+    --hero-overlay: rgba(111, 66, 193, 0.92);
+}
+
+.btn-primary {
+    --bs-btn-bg: #6f42c1;
+    --bs-btn-border-color: #6f42c1;
+    --bs-btn-hover-bg: #59349b;
+    --bs-btn-hover-border-color: #59349b;
+    --bs-btn-active-bg: #4c2d85;
+    --bs-btn-active-border-color: #4c2d85;
+    --bs-btn-disabled-bg: #6f42c1;
+    --bs-btn-disabled-border-color: #6f42c1;
+}
+
+.bg-primary {
+    background-color: #6f42c1 !important;
+}
+
+.text-primary {
+    color: #6f42c1 !important;
 }
 
 body {
@@ -134,12 +162,18 @@ main.container {
 }
 
 /* Footer links */
-footer a {
+.footer-purple {
+    background-color: #2d1b4e;
+}
+
+.footer-purple a.footer-muted,
+.footer-purple .footer-muted {
+    color: #c3b3e0 !important;
     text-decoration: none;
 }
 
-footer a:hover {
-    color: #fff !important;
+.footer-purple a.footer-muted:hover {
+    color: #ffffff !important;
 }
 
 /* Form enhancements */
