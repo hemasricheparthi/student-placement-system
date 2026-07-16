@@ -44,15 +44,9 @@ def get_dashboard_stats():
 
 
 def home(request):
-    stats = get_dashboard_stats()
-    announcements = Announcement.objects.filter(is_active=True)[:5]
-    recent_jobs = Job.objects.filter(status='OPEN').select_related('company')[:6]
-    return render(request, 'dashboard/home.html', {
-        'stats': stats,
-        'announcements': announcements,
-        'recent_jobs': recent_jobs,
-    })
-
+    if request.user.is_authenticated:
+        return redirect(get_dashboard_url(request.user))
+    return redirect('accounts:login')
 
 def about(request):
     return render(request, 'dashboard/about.html')
