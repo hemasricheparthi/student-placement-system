@@ -96,6 +96,11 @@ def apply_job(request, pk):
     job = get_object_or_404(Job, pk=pk, status='OPEN')
     profile = request.user.student_profile
 
+    if not job.is_open:
+        messages.error(request, 'The application deadline for this job has passed.')
+        return redirect('jobs:job_detail', pk=pk)
+
+
     if Application.objects.filter(student=profile, job=job).exists():
         messages.warning(request, 'You have already applied for this job.')
         return redirect('jobs:job_detail', pk=pk)
