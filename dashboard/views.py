@@ -7,6 +7,9 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Q
 from django.shortcuts import redirect, render
 from django.utils import timezone
+from django.conf import settings
+from django.contrib import messages
+from django.core.mail import send_mail
 
 from accounts.decorators import (
     admin_required,
@@ -53,6 +56,29 @@ def about(request):
 
 
 def contact(request):
+    if request.method == 'POST':
+        name = request.POST.get('name', '').strip()
+        email = request.POST.get('email', '').strip()
+        subject = request.POST.get('subject', '').strip()
+        message_body = request.POST.get('message', '').strip()
+
+        if name and email and subject and message_body:
+            try:
+                send_mail(
+                    subject=f'[Placement Portal Contact] {subject}',
+                    message=f'From: {name} <{email}>\n\n{message_body}',
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[settings.CONTACT_RECEIVER_EMAIL],
+                    fail_silently=False,
+                )
+                messages.success(request, 'Your message has been sent successfully! We will get back to you soon.')
+            except Exception:
+                messages.error(request, 'Sorry, something went wrong while sending your message. Please try again later or email us directly.')
+        else:
+            messages.error(request, 'Please fill in all fields.')
+
+        return redirect('dashboard:contact')
+
     return render(request, 'dashboard/contact.html')
 
 
