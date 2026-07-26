@@ -36,12 +36,18 @@ class CustomLoginView(LoginView):
 
 
 class RoleLoginView(CustomLoginView):
-    allowed_role_check = None
+    """Base for role-specific login pages. Reuses CustomLoginView's
+    form and success-url logic exactly; only the template differs.
+    Enforces that the authenticated user's role matches the page used
+    (e.g. only students can log in via the Student login page).
+    Also applies an optional 'Remember Me' session-expiry tweak."""
+
+    allowed_role_checks = []  # e.g. ['is_student'], set by subclasses
     role_label = 'this'
 
     def form_valid(self, form):
         user = form.get_user()
-        if self.allowed_role_check and not getattr(user, self.allowed_role_check):
+        if self.allowed_role_checks and not any(getattr(user, check, False) for check in self.allowed_role_checks):
             messages.error(
                 self.request,
                 f'These credentials are valid, but this account is not registered as {self.role_label}. '
@@ -57,20 +63,20 @@ class RoleLoginView(CustomLoginView):
 
 class StudentLoginView(RoleLoginView):
     template_name = 'accounts/student_login.html'
-    allowed_role_check = 'is_student'
+    allowed_role_checks = ['is_student']
     role_label = 'a Student'
 
 
 class CompanyLoginView(RoleLoginView):
     template_name = 'accounts/company_login.html'
-    allowed_role_check = 'is_company'
+    allowed_role_checks = ['is_company']
     role_label = 'a Company'
 
 
 class AdminLoginView(RoleLoginView):
     template_name = 'accounts/admin_login.html'
-    allowed_role_check = 'is_admin'
-    role_label = 'an Admin'
+    allowed_role_checks = ['is_admin', 'is_placement_officer']
+    role_label = 'an Admin or Placement Officer'
 
 class CustomLogoutView(LogoutView):
     next_page = reverse_lazy('dashboard:home')
