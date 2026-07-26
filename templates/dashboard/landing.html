@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placement Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #faf9fc;
+            background-image: linear-gradient(#ede3fa 1px, transparent 1px), linear-gradient(90deg, #ede3fa 1px, transparent 1px);
+            background-size: 36px 36px;
+            display: flex;
+            flex-direction: column;
+        }
+        .top-bar {
+            padding: 1.5rem 2rem;
+            display: flex; align-items: center; gap: 0.6rem;
+            font-weight: 700; color: #2d1b4e; font-size: 1.1rem;
+        }
+        .top-bar .icon-badge {
+            width: 36px; height: 36px; border-radius: 8px;
+            background: #6f42c1; color: #fff;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .hero-wrap {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem 1.5rem 5rem 1.5rem;
+        }
+        .eyebrow {
+            display: inline-block;
+            background: #ede3fa;
+            color: #6f42c1;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            padding: 0.35rem 0.9rem;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+        }
+        .hero-wrap h1 {
+            color: #241536;
+            font-weight: 800;
+            font-size: clamp(1.9rem, 5vw, 3.1rem);
+            margin-bottom: 1rem;
+            max-width: 720px;
+            line-height: 1.2;
+        }
+        .hero-wrap p.subtitle {
+            color: #6b5c85;
+            font-size: clamp(0.95rem, 2vw, 1.15rem);
+            max-width: 560px;
+            margin: 0 auto 2.5rem auto;
+        }
+        .btn-get-started {
+            background: #6f42c1;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            padding: 0.85rem 2.25rem;
+            box-shadow: 0 10px 25px rgba(111,66,193,0.3);
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-get-started:hover {
+            background: #4c2d85;
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(111,66,193,0.4);
+            color: #fff;
+        }
+        .stat-row {
+            display: flex;
+            gap: 3rem;
+            margin-top: 3.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .stat-row div h3 { font-weight: 800; color: #2d1b4e; margin-bottom: 0; font-size: 1.6rem; }
+        .stat-row div span { color: #8a7a9e; font-size: 0.82rem; }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="icon-badge"><i class="bi bi-mortarboard-fill"></i></div>
+        Placement Portal
+    </div>
+
+    <div class="hero-wrap">
+        <span class="eyebrow">Campus Recruitment, Simplified</span>
+        <h1>Placement Management System</h1>
+        <p class="subtitle">Connecting Students, Companies, and Administrators through a Smart Placement Portal.</p>
+        <a href="{% url 'dashboard:select_role' %}" class="btn-get-started">Get Started <i class="bi bi-arrow-right"></i></a>
+
+        <div class="stat-row">
+            <div><h3>500+</h3><span>Students Placed</span></div>
+            <div><h3>120+</h3><span>Partner Companies</span></div>
+            <div><h3>95%</h3><span>Placement Rate</span></div>
+        </div>
+    </div>
+</body>
+</html>
