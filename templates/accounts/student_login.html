@@ -145,8 +145,11 @@
             </form>
 
             <div class="footer-links">
-                Not a student? <a href="{% url 'dashboard:select_role' %}">Choose a different login</a>
-            </div>
+    Don't have an account? <a href="{% url 'accounts:student_register' %}">Register as Student</a>
+</div>
+<div class="footer-links">
+    Not a student? <a href="{% url 'dashboard:select_role' %}">Choose a different login</a>
+</div>
         </div>
     </div>
 

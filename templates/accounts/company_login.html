@@ -145,8 +145,11 @@
             </form>
 
             <div class="footer-links">
-                Not a company? <a href="{% url 'dashboard:select_role' %}">Choose a different login</a>
-            </div>
+    Don't have an account? <a href="{% url 'accounts:company_register' %}">Register your Company</a>
+</div>
+<div class="footer-links">
+    Not a company? <a href="{% url 'dashboard:select_role' %}">Choose a different login</a>
+</div>
         </div>
     </div>
 
