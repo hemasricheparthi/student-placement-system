@@ -1,4 +1,3 @@
-{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,141 +7,151 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-     body {
-    margin: 0;
-    min-height: 100vh;
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background:
-        radial-gradient(circle at 15% 10%, rgba(111,66,193,0.08) 0%, transparent 40%),
-        radial-gradient(circle at 85% 85%, rgba(76,45,133,0.08) 0%, transparent 40%),
-        #faf9fc;
-    background-image:
-        linear-gradient(#ede3fa 1px, transparent 1px),
-        linear-gradient(90deg, #ede3fa 1px, transparent 1px),
-        radial-gradient(circle at 15% 10%, rgba(111,66,193,0.08) 0%, transparent 40%),
-        radial-gradient(circle at 85% 85%, rgba(76,45,133,0.08) 0%, transparent 40%);
-    background-size: 36px 36px, 36px 36px, 100% 100%, 100% 100%;
-    display: flex;
-    flex-direction: column;
-}
-        .blob { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.08); }
-        .blob-1 { width: 350px; height: 350px; top: -120px; left: -100px; }
-        .blob-2 { width: 250px; height: 250px; bottom: -80px; right: -60px; background: rgba(217,70,239,0.15); }
-
-        .content-wrap { position: relative; z-index: 2; width: 100%; max-width: 780px; }
-        .brand-badge { text-align: center; color: #fff; margin-bottom: 1.25rem; }
-        .brand-badge .icon-circle {
-            width: 56px; height: 56px; border-radius: 50%;
-            background: rgba(255,255,255,0.15);
-            border: 2px solid rgba(255,255,255,0.3);
+        * { box-sizing: border-box; }
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden;
+        }
+        body {
+            min-height: 100vh;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #faf9fc;
+            background-image: linear-gradient(#ede3fa 1px, transparent 1px), linear-gradient(90deg, #ede3fa 1px, transparent 1px);
+            background-size: 36px 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem 1rem;
+        }
+        .top-bar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            padding: 1.25rem 2rem;
+            display: flex; align-items: center; gap: 0.6rem;
+            font-weight: 700; color: #2d1b4e; font-size: 1.05rem;
+        }
+        .top-bar .icon-badge {
+            width: 34px; height: 34px; border-radius: 8px;
+            background: #6f42c1; color: #fff;
             display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 0.6rem auto; font-size: 1.5rem;
+            font-size: 0.95rem;
         }
-        .brand-badge h1 { font-weight: 700; font-size: 1.3rem; margin-bottom: 0.1rem; }
-        .brand-badge p { color: rgba(255,255,255,0.75); font-size: 0.85rem; margin: 0; }
-
         .register-card {
+            width: 100%;
+            max-width: 760px;
             background: #fff;
-            border-radius: 18px;
+            border-radius: 16px;
+            border: 1px solid #ede3fa;
             padding: 2.25rem;
-            box-shadow: 0 25px 60px rgba(45,27,78,0.35);
+            box-shadow: 0 4px 20px rgba(76,45,133,0.06);
+            margin-top: 3.5rem;
         }
+        .register-header { text-align: center; margin-bottom: 1.75rem; }
+        .register-header .role-icon {
+            width: 52px; height: 52px; border-radius: 12px;
+            background: #6f42c1; color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem; margin: 0 auto 0.85rem auto;
+        }
+        .register-header h2 { font-weight: 700; font-size: 1.4rem; color: #241536; margin-bottom: 0.2rem; }
+        .register-header p { color: #8a7a9e; font-size: 0.88rem; margin: 0; }
+
         .form-label { font-weight: 600; font-size: 0.83rem; color: #4c2d85; }
         .form-control, .form-select {
-            border-radius: 8px;
-            border: 1.5px solid #e6def5;
+            border-radius: 8px; border: 1.5px solid #e6def5;
             padding: 0.55rem 0.85rem;
         }
         .form-control:focus, .form-select:focus {
-            border-color: #6f42c1;
-            box-shadow: 0 0 0 0.15rem rgba(111,66,193,0.12);
+            border-color: #6f42c1; box-shadow: 0 0 0 0.15rem rgba(111,66,193,0.12);
         }
         .btn-register {
-            background: linear-gradient(135deg, #6f42c1, #9333ea);
+            background: #6f42c1;
             border: none; border-radius: 8px;
             font-weight: 600; padding: 0.68rem;
         }
-        .btn-register:hover { filter: brightness(1.08); }
+        .btn-register:hover { background: #4c2d85; }
         .footer-links { margin-top: 1.25rem; text-align: center; font-size: 0.85rem; color: #8a7a9e; }
         .footer-links a { color: #6f42c1; font-weight: 600; text-decoration: none; }
     </style>
 </head>
 <body>
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
+    <div class="top-bar">
+        <div class="icon-badge"><i class="bi bi-mortarboard-fill"></i></div>
+        Placement Portal
+    </div>
 
-    <div class="content-wrap">
-        <div class="brand-badge">
-            <div class="icon-circle"><i class="bi bi-mortarboard-fill"></i></div>
-            <h1>Placement Portal</h1>
+    <div class="register-card">
+        <div class="register-header">
+            <div class="role-icon"><i class="bi bi-mortarboard-fill"></i></div>
+            <h2>Student Registration</h2>
             <p>Create your student account</p>
         </div>
 
-        <div class="register-card">
-            <form method="post" novalidate>
-                {% csrf_token %}
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Username <span class="text-danger">*</span></label>
-                        <input type="text" name="username" class="form-control" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Email <span class="text-danger">*</span></label>
-                        <input type="email" name="email" class="form-control" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">First Name <span class="text-danger">*</span></label>
-                        <input type="text" name="first_name" class="form-control" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Last Name <span class="text-danger">*</span></label>
-                        <input type="text" name="last_name" class="form-control" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Phone <span class="text-danger">*</span></label>
-                        <input type="text" name="phone" class="form-control" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Enrollment No <span class="text-danger">*</span></label>
-                        <input type="text" name="enrollment_no" class="form-control" required>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label">Department <span class="text-danger">*</span></label>
-                        <select name="department" class="form-select" required>
-                            {% for dept in form.department.field.queryset %}
-                            <option value="{{ dept.pk }}">{{ dept.name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label">Batch Year <span class="text-danger">*</span></label>
-                        <input type="number" name="batch_year" class="form-control" value="2026" required>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label">CGPA <span class="text-danger">*</span></label>
-                        <input type="number" name="cgpa" class="form-control" step="0.01" value="0" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Password <span class="text-danger">*</span></label>
-                        <input type="password" name="password1" class="form-control" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Confirm Password <span class="text-danger">*</span></label>
-                        <input type="password" name="password2" class="form-control" required>
-                    </div>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Username <span class="text-danger">*</span></label>
+                    <input type="text" name="username" class="form-control" required>
                 </div>
-                {% if form.errors %}
-                <div class="alert alert-danger">
-                    {% for field, errors in form.errors.items %}
-                        {% for error in errors %}<p class="mb-0">{{ error }}</p>{% endfor %}
-                    {% endfor %}
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Email <span class="text-danger">*</span></label>
+                    <input type="email" name="email" class="form-control" required>
                 </div>
-                {% endif %}
-                <button type="submit" class="btn btn-register w-100 text-white">Register</button>
-            </form>
-            <div class="footer-links">
-                Already have an account? <a href="{% url 'accounts:student_login' %}">Login</a>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">First Name <span class="text-danger">*</span></label>
+                    <input type="text" name="first_name" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Last Name <span class="text-danger">*</span></label>
+                    <input type="text" name="last_name" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Phone <span class="text-danger">*</span></label>
+                    <input type="text" name="phone" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Enrollment No <span class="text-danger">*</span></label>
+                    <input type="text" name="enrollment_no" class="form-control" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Department <span class="text-danger">*</span></label>
+                    <select name="department" class="form-select" required>
+                        {% for dept in form.department.field.queryset %}
+                        <option value="{{ dept.pk }}">{{ dept.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Batch Year <span class="text-danger">*</span></label>
+                    <input type="number" name="batch_year" class="form-control" value="2026" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">CGPA <span class="text-danger">*</span></label>
+                    <input type="number" name="cgpa" class="form-control" step="0.01" value="0" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Password <span class="text-danger">*</span></label>
+                    <input type="password" name="password1" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Confirm Password <span class="text-danger">*</span></label>
+                    <input type="password" name="password2" class="form-control" required>
+                </div>
             </div>
+            {% if form.errors %}
+            <div class="alert alert-danger">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}<p class="mb-0">{{ error }}</p>{% endfor %}
+                {% endfor %}
+            </div>
+            {% endif %}
+            <button type="submit" class="btn btn-register w-100 text-white">Register</button>
+        </form>
+        <div class="footer-links">
+            Already have an account? <a href="{% url 'accounts:student_login' %}">Login</a>
         </div>
     </div>
 </body>
