@@ -73,7 +73,7 @@ class AdminLoginView(RoleLoginView):
     role_label = 'an Admin'
 
 class CustomLogoutView(LogoutView):
-    next_page = reverse_lazy('accounts:login')
+    next_page = reverse_lazy('dashboard:home')
 
 
 class CustomPasswordResetView(PasswordResetView):
