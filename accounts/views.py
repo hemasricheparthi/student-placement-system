@@ -35,6 +35,43 @@ class CustomLoginView(LoginView):
         return get_dashboard_url(self.request.user)
 
 
+class RoleLoginView(CustomLoginView):
+    allowed_role_check = None
+    role_label = 'this'
+
+    def form_valid(self, form):
+        user = form.get_user()
+        if self.allowed_role_check and not getattr(user, self.allowed_role_check):
+            messages.error(
+                self.request,
+                f'These credentials are valid, but this account is not registered as {self.role_label}. '
+                f'Please use the correct login page for your account type.'
+            )
+            return self.form_invalid(form)
+
+        response = super().form_valid(form)
+        if not self.request.POST.get('remember_me'):
+            self.request.session.set_expiry(0)
+        return response
+
+
+class StudentLoginView(RoleLoginView):
+    template_name = 'accounts/student_login.html'
+    allowed_role_check = 'is_student'
+    role_label = 'a Student'
+
+
+class CompanyLoginView(RoleLoginView):
+    template_name = 'accounts/company_login.html'
+    allowed_role_check = 'is_company'
+    role_label = 'a Company'
+
+
+class AdminLoginView(RoleLoginView):
+    template_name = 'accounts/admin_login.html'
+    allowed_role_check = 'is_admin'
+    role_label = 'an Admin'
+
 class CustomLogoutView(LogoutView):
     next_page = reverse_lazy('accounts:login')
 

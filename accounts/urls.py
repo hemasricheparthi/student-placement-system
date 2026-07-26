@@ -21,4 +21,7 @@ urlpatterns = [
     path('manage/departments/', views.manage_departments, name='manage_departments'),
     path('manage/skills/', views.manage_skills, name='manage_skills'),
     path('manage/announcements/', views.manage_announcements, name='manage_announcements'),
+    path('login/student/', views.StudentLoginView.as_view(), name='student_login'),
+    path('login/company/', views.CompanyLoginView.as_view(), name='company_login'),
+    path('login/admin/', views.AdminLoginView.as_view(), name='admin_login'),
 ]

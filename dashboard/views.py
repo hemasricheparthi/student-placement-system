@@ -49,7 +49,13 @@ def get_dashboard_stats():
 def home(request):
     if request.user.is_authenticated:
         return redirect(get_dashboard_url(request.user))
-    return redirect('accounts:login')
+    return render(request, 'dashboard/landing.html')
+
+
+def select_role(request):
+    if request.user.is_authenticated:
+        return redirect(get_dashboard_url(request.user))
+    return render(request, 'dashboard/select_role.html')
 
 def about(request):
     return render(request, 'dashboard/about.html')
