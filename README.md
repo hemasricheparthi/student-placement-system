@@ -21,8 +21,6 @@ A full-stack web application for managing campus placements — student profiles
 ### Company Dashboard
 ![Company Dashboard](screenshots/company_dashboard.png)
 
-### Placementofficer Dashboard
-![Placementofficer Dashboard](screenshots/officer_dashboard.png)
 
 ### Admin Dashboard
 ![Admin Dashboard](screenshots/admin_dashboard.png)
