@@ -116,7 +116,7 @@ def student_register(request):
         if form.is_valid():
             user = form.save()
             messages.success(request, 'Registration successful! Please login.')
-            return redirect('accounts:login')
+            return redirect('accounts:student_login')
     else:
         form = StudentRegistrationForm()
     return render(request, 'accounts/student_register.html', {'form': form})
@@ -130,7 +130,7 @@ def company_register(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Company registered! Awaiting verification. Please login.')
-            return redirect('accounts:login')
+            return redirect('accounts:company_login')
     else:
         form = CompanyRegistrationForm()
     return render(request, 'accounts/company_register.html', {'form': form})
