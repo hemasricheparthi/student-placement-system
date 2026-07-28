@@ -144,7 +144,7 @@ def student_dashboard(request):
         application__student=profile,
         status='SCHEDULED',
         scheduled_date__gte=timezone.now(),
-    ).select_related('application__job')[:5]
+    ).select_related('application__job')[:2]
     eligible_count = Job.objects.filter(
         status='OPEN', min_cgpa__lte=profile.cgpa
     ).count()
@@ -163,7 +163,7 @@ def company_dashboard(request):
     total_applicants = Application.objects.filter(job__company=company).count()
     recent_applications = Application.objects.filter(
         job__company=company
-    ).select_related('student', 'job').order_by('-applied_at')[:10]
+    ).select_related('student', 'job').order_by('-applied_at')[:5]
     return render(request, 'dashboard/company_dashboard.html', {
         'company': company,
         'jobs': jobs,
