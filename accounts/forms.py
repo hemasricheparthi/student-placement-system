@@ -21,6 +21,24 @@ class StudentRegistrationForm(UserCreationForm):
     batch_year = forms.IntegerField(min_value=2020, max_value=2030, initial=2026)
     cgpa = forms.DecimalField(min_value=0, max_value=10, decimal_places=2, initial=0)
 
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if CustomUser.objects.filter(email__iexact=email).exists():
+            raise forms.ValidationError('An account with this email already exists.')
+        return email
+
+    def clean_phone(self):
+        phone = self.cleaned_data['phone']
+        if CustomUser.objects.filter(phone=phone).exclude(phone='').exists():
+            raise forms.ValidationError('An account with this phone number already exists.')
+        return phone
+
+    def clean_enrollment_no(self):
+        enrollment_no = self.cleaned_data['enrollment_no']
+        if StudentProfile.objects.filter(enrollment_no__iexact=enrollment_no).exists():
+            raise forms.ValidationError('This enrollment number is already registered.')
+        return enrollment_no
+
     class Meta:
         model = CustomUser
         fields = [
@@ -58,6 +76,18 @@ class CompanyRegistrationForm(UserCreationForm):
     contact_phone = forms.CharField(max_length=15, required=True)
     website = forms.URLField(required=False)
     description = forms.CharField(widget=forms.Textarea, required=False)
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if CustomUser.objects.filter(email__iexact=email).exists():
+            raise forms.ValidationError('An account with this email already exists.')
+        return email
+
+    def clean_contact_phone(self):
+        phone = self.cleaned_data['contact_phone']
+        if CompanyProfile.objects.filter(contact_phone=phone).exists():
+            raise forms.ValidationError('An account with this phone number already exists.')
+        return phone
 
     class Meta:
         model = CustomUser
