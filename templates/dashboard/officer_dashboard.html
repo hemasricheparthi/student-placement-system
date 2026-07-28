@@ -6,6 +6,7 @@
 
 <div class="row g-4 mb-4">
     <div class="col-md-3">
+    <a href="{% url 'students:student_list' %}" class="text-decoration-none">
         <div class="card stat-card bg-primary text-white">
             <div class="card-body text-center">
                 <i class="bi bi-people fs-2"></i>
@@ -13,8 +14,10 @@
                 <p class="mb-0">Total Students</p>
             </div>
         </div>
-    </div>
-    <div class="col-md-3">
+    </a>
+</div>
+<div class="col-md-3">
+    <a href="{% url 'companies:manage_companies' %}?verified=true" class="text-decoration-none">
         <div class="card stat-card bg-success text-white">
             <div class="card-body text-center">
                 <i class="bi bi-building fs-2"></i>
@@ -22,8 +25,10 @@
                 <p class="mb-0">Verified Companies</p>
             </div>
         </div>
-    </div>
-    <div class="col-md-3">
+    </a>
+</div>
+<div class="col-md-3">
+    <a href="{% url 'students:student_list' %}?verified=false" class="text-decoration-none">
         <div class="card stat-card bg-warning text-dark">
             <div class="card-body text-center">
                 <i class="bi bi-hourglass-split fs-2"></i>
@@ -31,8 +36,10 @@
                 <p class="mb-0">Pending Student Verifications</p>
             </div>
         </div>
-    </div>
-    <div class="col-md-3">
+    </a>
+</div>
+<div class="col-md-3">
+    <a href="{% url 'companies:manage_companies' %}?verified=false" class="text-decoration-none">
         <div class="card stat-card bg-info text-white">
             <div class="card-body text-center">
                 <i class="bi bi-shield-exclamation fs-2"></i>
@@ -40,42 +47,51 @@
                 <p class="mb-0">Unverified Companies</p>
             </div>
         </div>
-    </div>
+    </a>
+</div>
 </div>
 
 <div class="row g-4 mb-4">
     <div class="col-md-3">
+    <a href="{% url 'reports:reports_home' %}" class="text-decoration-none">
         <div class="card stat-card text-center">
             <div class="card-body">
                 <h4>{{ stats.placement_percentage }}%</h4>
                 <small class="text-muted">Placement Rate</small>
             </div>
         </div>
-    </div>
-    <div class="col-md-3">
+    </a>
+</div>
+<div class="col-md-3">
+    <a href="{% url 'jobs:application_list' %}" class="text-decoration-none">
         <div class="card stat-card text-center">
             <div class="card-body">
                 <h4>{{ stats.total_applications }}</h4>
                 <small class="text-muted">Total Applications</small>
             </div>
         </div>
-    </div>
-    <div class="col-md-3">
+    </a>
+</div>
+<div class="col-md-3">
+    <a href="{% url 'jobs:job_list' %}?status=OPEN" class="text-decoration-none">
         <div class="card stat-card text-center">
             <div class="card-body">
                 <h4>{{ stats.total_jobs }}</h4>
                 <small class="text-muted">Open Jobs</small>
             </div>
         </div>
-    </div>
-    <div class="col-md-3">
+    </a>
+</div>
+<div class="col-md-3">
+    <a href="{% url 'placement:manage_drives' %}" class="text-decoration-none">
         <div class="card stat-card text-center">
             <div class="card-body">
                 <h4>{{ stats.upcoming_drives }}</h4>
                 <small class="text-muted">Upcoming Drives</small>
             </div>
         </div>
-    </div>
+    </a>
+</div>
 </div>
 
 <div class="row g-4">
@@ -130,17 +146,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="card shadow-sm mt-4">
-    <div class="card-header"><h5 class="mb-0">Quick Actions</h5></div>
-    <div class="card-body">
-        <a href="{% url 'students:student_list' %}" class="btn btn-outline-primary me-2 mb-2"><i class="bi bi-people"></i> Students</a>
-        <a href="{% url 'companies:manage_companies' %}" class="btn btn-outline-primary me-2 mb-2"><i class="bi bi-building"></i> Companies</a>
-        <a href="{% url 'placement:manage_drives' %}" class="btn btn-outline-primary me-2 mb-2"><i class="bi bi-calendar-plus"></i> Drives</a>
-        <a href="{% url 'accounts:manage_announcements' %}" class="btn btn-outline-primary me-2 mb-2"><i class="bi bi-megaphone"></i> Announcements</a>
-        <a href="{% url 'reports:reports_home' %}" class="btn btn-outline-success mb-2"><i class="bi bi-bar-chart"></i> Reports</a>
     </div>
 </div>
 {% endblock %}
